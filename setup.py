@@ -3,7 +3,7 @@ from pathlib import Path
 
 
 VERSION = '0.1.14'
-DESCRIPTION = 'Python Script for interacting with Github API'
+DESCRIPTION = 'Python Script for Parsing Payments File.'
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
