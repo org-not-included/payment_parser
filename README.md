@@ -8,7 +8,7 @@ Parses a payment file, with multiple blocks of data, into individual CSVs.
 
 ## Installation
 ```text
-python3 -m pip install payment-parser
+pip3 install payment-parser
 ```
 
 ## Example Code Usage:
@@ -24,7 +24,7 @@ parse_doc(
 
 ## Example CLI Usage:
 ```text
-python3 -m payment_parser --file "payment_parser/T140_sample.txt" --output_dir "payment_parser/output/" --verbose=False
+payment_parser --file "payment_parser/T140_sample.txt" --output_dir "payment_parser/output/" --verbose=False
 ```  
   
   
@@ -46,3 +46,22 @@ Block: 11/13, Report: 1IP728010-AA, Table type: 3
 Block: 12/13, Report: 1IP728010-AA, Table type: 3
 Block: 13/13, Report: 1IP728010-AA, Table type: 5
 ```  
+
+## Help/Docs Usage:
+```text
+payment_parser --help                                                                                     
+```
+
+### Help/Docs Output:
+```text
+usage: payment_parser [-h] [--file FILE] [--output_dir OUTPUT_DIR] [--split_term SPLIT_TERM] [--verbose VERBOSE]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --file FILE           The absolute path of the file to parse.
+  --output_dir OUTPUT_DIR
+                        The absolute folder path for saving the parse results.
+  --split_term SPLIT_TERM
+                        Word or phrase used to split file into chunks.
+  --verbose VERBOSE     Whether to enable extra logging.
+```

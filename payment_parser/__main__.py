@@ -2,7 +2,7 @@ import argparse
 from helpers import parse_doc
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser("simple_example")
+    parser = argparse.ArgumentParser("payment_parser")
     parser.add_argument(
         "--file", help="The absolute path of the file to parse."
     )
