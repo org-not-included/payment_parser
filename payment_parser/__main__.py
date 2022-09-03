@@ -1,10 +1,5 @@
 import argparse
-from functools import reduce
-import pandas as pd
-from pprint import pformat
-import re
-from re import finditer
-from helpers import *
+from helpers import parse_doc
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser("simple_example")
