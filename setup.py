@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from pathlib import Path
 
 
-VERSION = '0.1.14'
+VERSION = '0.0.1'
 DESCRIPTION = 'Python Script for Parsing Payments File.'
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
@@ -11,14 +11,13 @@ setup(
     name="payment_parser",
     version=VERSION,
     url="https://github.com/org-not-included/payment_parser/",
-    author="shivanjaywagh,mtsadler",
-    author_email="<michaeltsadler1@gmail.com>",
+    author=["shivanjaywagh", "mtsadler"],
     description=DESCRIPTION,
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=find_packages(),
-    install_requires=['pandas', 'pendulum'],
-    keywords=['python', 'github', 'api', 'comment', 'action', 'Pull Request'],
+    install_requires=['pandas'],
+    keywords=["T140", "payment", "parser", "fixed", "width", "format"],
     classifiers=[
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
