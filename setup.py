@@ -8,7 +8,7 @@ this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
 setup(
-    name="py-github-helper",
+    name="payment_parser",
     version=VERSION,
     url="https://github.com/org-not-included/payment_parser/",
     author="shivanjaywagh,mtsadler",
