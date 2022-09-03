@@ -38,7 +38,6 @@ Block: 13/13, Report: 1IP728010-AA, Table type: 5
 
 ## Example Code Usage
 ```Python3
-# from payment_parser.__main__ import parse_doc
 from payment_parser import parse_doc
 file = 'payment_parser/T140_sample.txt'
 output_dir = "payment_parser/output/"
