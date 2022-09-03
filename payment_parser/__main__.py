@@ -244,7 +244,7 @@ def parse_doc(file, output_dir, split_term, verbose):
             print("*****    Table or Report Type Undefined for block above.")
             exit(1)
         if is_table_empty == 1:
-            print("*****    No Data to Report.")
+            print("*****   No data found in block above.")
             continue
         block_meta = {"REPORT": report_id}
         for meta_column in meta_cols:
@@ -263,7 +263,7 @@ def parse_doc(file, output_dir, split_term, verbose):
             df = pd.DataFrame(full_result)
             df.to_csv(f"{output_dir}block_{idx+1}.csv", index=None)
         else:
-            print("*****    No rows found in block above.")
+            print("*****    No data found in block above.")
             if verbose:
                 print("=======================" * 6)
         if verbose:
