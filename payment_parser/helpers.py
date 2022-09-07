@@ -230,7 +230,7 @@ def parse_doc(file, output_dir, split_term, verbose):
     ]
     with open(file, "r") as f:
         lines = f.read()
-    print(f"Lines: {lines}")
+    # print(f"Lines: {lines}")
     # Split on start of line, if line contains split_term
     pattern = re.compile(r'\n(?=^.+?' + split_term + ')', re.MULTILINE)
     blocks = pattern.split(lines)
@@ -248,7 +248,7 @@ def parse_doc(file, output_dir, split_term, verbose):
 
         if 0 in (table_type, report_type):
             print("*****    Table or Report Type Undefined for block above.")
-            exit(1)
+            continue
         if is_table_empty == 1:
             print("*****   No data found in block above.")
             continue
