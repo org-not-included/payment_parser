@@ -177,6 +177,7 @@ def parse_block_table_data(table_type, report_type, block, verbose):
         print("=======================" * 6)
         print("Column Indexes:")
         for col_idx in range(len(col_names)):
+            col_names[col_idx] = col_names[col_idx].strip()
             print("\t- " + f"{col_start_end[col_idx]} {col_names[col_idx]}")
         print("=======================" * 6)
     # CLEARING CYCLE 001 - ACKNOWLEDGEMENT
@@ -213,7 +214,7 @@ def parse_doc(file, output_dir, split_term, verbose):
         verbose: whether to print every print statement
         split_term: word used to split file into chunks
     Returns:
-        None
+        List of output file details [Filepath, table_name, report_name]
     """
     results = []
     meta_cols = [
@@ -230,7 +231,6 @@ def parse_doc(file, output_dir, split_term, verbose):
     ]
     with open(file, "r") as f:
         lines = f.read()
-    # print(f"Lines: {lines}")
     # Split on start of line, if line contains split_term
     pattern = re.compile(r'\n(?=^.+?' + split_term + ')', re.MULTILINE)
     blocks = pattern.split(lines)
@@ -267,7 +267,7 @@ def parse_doc(file, output_dir, split_term, verbose):
         if cleaned_result:
             full_result = append_meta_data_to_each_row(cleaned_result, block_meta)
             df = pd.DataFrame(full_result)
-            filename = f"{output_dir}block_{idx+1}.csv"
+            filename = os.path.join(output_dir, f"block_{idx+1}.csv")
             df.to_csv(filename, index=None)
             results.append([filename, table_id, report_id])
             if verbose:
