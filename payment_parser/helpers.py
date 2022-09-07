@@ -20,15 +20,15 @@ def slugify(value):
     return re.sub(r'[-\s]+', '_', value).strip('-_')
 
 
-def get_start_end(search_key, block):
+def get_next_word(search_key, block):
     """
-    Searches for the start and end location of search_key in block.
+    Searches for the next word after search_key in block.
 
     Args:
         search_key: the string segement to return index of
         block: the blob containing search_key and likely other text
     Returns:
-        (start, end)
+        The string following search_key in block
     """
     search_result = ""
     if bool(re.search(search_key, block)):
@@ -265,9 +265,9 @@ def parse_doc(file, output_dir, split_term, verbose):
         if is_table_empty == 1:
             print("*****   No data found in block above.")
             continue
-        block_meta = {"REPORT": report_id}
+        block_meta = {"report": report_id}
         for meta_column in meta_cols:
-            block_meta[meta_column] = get_start_end(meta_column, block)
+            block_meta[slugify(meta_column)] = get_next_word(meta_column, block).strip()
         raw_result = parse_block_table_data(table_type, report_type, block, verbose)
         cleaned_result = {}
         for key in raw_result.keys():
