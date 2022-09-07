@@ -2,3 +2,4 @@
 payment_parser/output/*
 __pycache__/
 .idea/
+scratch/

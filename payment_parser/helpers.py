@@ -35,16 +35,22 @@ def parse_block_metadata(block):
     # Category of table
     if bool(re.search("CLEARING CYCLE [0-9]+ - ACKNOWLEDGEMENT", block)):
         table_type = 1
+        table_id = "clearing_cycle_acknowledgment"
     elif bool(re.search("CLEARING CYCLE [0-9]+ - NOTIFICATION", block)):
         table_type = 2
+        table_id = "clearing_notification"
     elif bool(re.search("CLEARING CYCLE [0-9]+ SUMMARY", block)):
         table_type = 3
+        table_id = "clearing_cycle_summary"
     elif bool(re.search("CLEARING CYCLE [0-9]+", block)):
         table_type = 4
+        table_id = "clearing_cycle"
     elif bool(re.search("CLEARING DAY TOTAL", block)):
         table_type = 5
+        table_id = "clearing_day_total"
     else:
         table_type = 0
+        table_id = "other"
 
     report_id = block.split(" ")[0]
     # Category of Report
@@ -64,7 +70,7 @@ def parse_block_metadata(block):
         is_table_empty = 1
     else:
         is_table_empty = 0
-    return table_type, report_id, report_type, is_table_empty
+    return table_id, table_type, report_id, report_type, is_table_empty
 
 
 def append_meta_data_to_each_row(block_data, block_meta_data):
@@ -209,6 +215,7 @@ def parse_doc(file, output_dir, split_term, verbose):
     Returns:
         None
     """
+    results = []
     meta_cols = [
         "BUSINESS SERVICE ID:",
         "FILE ID:",
@@ -223,14 +230,13 @@ def parse_doc(file, output_dir, split_term, verbose):
     ]
     with open(file, "r") as f:
         lines = f.read()
+    print(f"Lines: {lines}")
     # Split on start of line, if line contains split_term
     pattern = re.compile(r'\n(?=^.+?' + split_term + ')', re.MULTILINE)
     blocks = pattern.split(lines)
-
-    #
     for idx in range(0, len(blocks)):
         block = blocks[idx]
-        table_type, report_id, report_type, is_table_empty = parse_block_metadata(block)
+        table_id, table_type, report_id, report_type, is_table_empty = parse_block_metadata(block)
         details = f"Block: {idx + 1}/{len(blocks)}, Report: {report_id}, Table type: {str(table_type)}"
         if verbose:
             print(block)
@@ -261,13 +267,16 @@ def parse_doc(file, output_dir, split_term, verbose):
         if cleaned_result:
             full_result = append_meta_data_to_each_row(cleaned_result, block_meta)
             df = pd.DataFrame(full_result)
-            df.to_csv(f"{output_dir}block_{idx+1}.csv", index=None)
+            filename = f"{output_dir}block_{idx+1}.csv"
+            df.to_csv(filename, index=None)
+            results.append([filename, table_id, report_id])
+            if verbose:
+                print(pformat(full_result))
+                print("=======================" * 6)
+                print(df)
+                print("=======================" * 6)
         else:
             print("*****    No data found in block above.")
             if verbose:
                 print("=======================" * 6)
-        if verbose:
-            print(pformat(full_result))
-            print("=======================" * 6)
-            print(df)
-            print("=======================" * 6)
+    return results
