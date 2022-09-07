@@ -5,6 +5,19 @@ import pandas as pd
 from pprint import pformat
 import re
 from re import finditer
+import unicodedata
+
+
+def slugify(value):
+    """
+    Remove characters that aren't alphanumerics, underscores, or hyphens.
+    Convert to lowercase.
+    Also strip leading and trailing whitespace, dashes, and underscores.
+    """
+    value = str(value)
+    value = unicodedata.normalize('NFKD', value).encode('ascii', 'ignore').decode('ascii')
+    value = re.sub(r'[^\w\s-]', '', value.lower())
+    return re.sub(r'[-\s]+', '-', value).strip('-_')
 
 
 def get_start_end(search_key, block):
@@ -164,10 +177,10 @@ def parse_block_table_data(table_type, report_type, block, verbose):
                 col_names[colum_idx] = raw_lines[line_num][start:end]
 
     data_rows = range(col_start_line_index + 1, table_end_line_index)
-    col_names = list(set(col_names))
+    col_names = [slugify(col) for col in set(col_names)]
     col_count = len(col_names)
     for i in range(col_count):
-        result_dict[col_names[i].strip()] = {}
+        result_dict[col_names[i]] = {}
     if verbose:
         # print(raw_lines)
         print(f"Line Count:                           {line_count}")
@@ -178,7 +191,6 @@ def parse_block_table_data(table_type, report_type, block, verbose):
         print("=======================" * 6)
         print("Column Indexes:")
         for col_idx in range(len(col_names)):
-            col_names[col_idx] = col_names[col_idx].strip()
             print("\t- " + f"{col_start_end[col_idx]} {col_names[col_idx]}")
         print("=======================" * 6)
     # CLEARING CYCLE 001 - ACKNOWLEDGEMENT
